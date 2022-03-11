@@ -1,4 +1,4 @@
-//import Button from "./Button";
+/* //import Button from "./Button";
 import styles from "./App.module.css";
 import { useState, useEffect } from "react";
 
@@ -34,6 +34,30 @@ function App() {
       <button onClick={onClick}>Click me</button>
     </div>
   );
+} */
+import { func } from "prop-types";
+import { useState, useEffect } from "react";
+function Hello() {
+  /* useEffect(function () {
+    console.log("Hi :)");
+    return function () {
+      console.log("bye :(");
+    };
+  }, []); */
+  useEffect(() => {
+    console.log("Hi :)");
+    return () => console.log("bye :(");
+  }, []);
+  return <h1>hello</h1>;
 }
-
+function App() {
+  const [showing, setShowing] = useState(false);
+  const onClick = () => setShowing((prev) => !prev);
+  return (
+    <div>
+      {showing ? <Hello /> : null}
+      <button onClick={onClick}>{showing ? "Hide" : "Show"}</button>
+    </div>
+  );
+}
 export default App;
