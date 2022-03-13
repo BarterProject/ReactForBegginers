@@ -1,62 +1,34 @@
-/* //import Button from "./Button";
-import styles from "./App.module.css";
-import { useState, useEffect } from "react";
-
-//const Memorized = memo();
-function App() {
-  const [counter, setValue] = useState(0);
-  const [keyword, setKeyword] = useState("");
-  const onChange = (event) => setKeyword(event.target.value);
-  const onClick = () => setValue((prev) => prev + 1);
-  console.log("render");
-
-  useEffect(() => {
-    console.log("i run only one");
-  }, []);
-  useEffect(() => {
-    if (keyword !== "") console.log("I run when keyword changes", keyword);
-  }, [keyword]);
-  useEffect(() => {
-    console.log("I run when counter changes");
-  }, [counter]);
-  useEffect(() => {
-    console.log("둘중하나만바껴도 바뀜");
-  }, [keyword, counter]);
-  return (
-    <div>
-      <input
-        value={keyword}
-        onChange={onChange}
-        type="text"
-        placeholder="search here..."
-      />
-      <h1 className={styles.title}>{counter}</h1>
-      <button onClick={onClick}>Click me</button>
-    </div>
-  );
-} */
 import { func } from "prop-types";
 import { useState, useEffect } from "react";
-function Hello() {
-  /* useEffect(function () {
-    console.log("Hi :)");
-    return function () {
-      console.log("bye :(");
-    };
-  }, []); */
-  useEffect(() => {
-    console.log("Hi :)");
-    return () => console.log("bye :(");
-  }, []);
-  return <h1>hello</h1>;
-}
+
 function App() {
-  const [showing, setShowing] = useState(false);
-  const onClick = () => setShowing((prev) => !prev);
+  const [toDo, setToDo] = useState("");
+  const [toDos, setToDos] = useState([]);
+  const onChange = (event) => setToDo(event.target.value);
+  const onSubmit = (event) => {
+    event.preventDefault();
+    if (toDo === "") return;
+    setToDos((currentArray) => [toDo, ...currentArray]);
+    setToDo("");
+  };
   return (
     <div>
-      {showing ? <Hello /> : null}
-      <button onClick={onClick}>{showing ? "Hide" : "Show"}</button>
+      <h1>My To Dos ({toDos.length})</h1>
+      <form onSubmit={onSubmit}>
+        <input
+          onChange={onChange}
+          value={toDo}
+          type="text"
+          placeholder="Writeyour to do"
+        />
+        <button>Add To Do</button>
+      </form>
+      <hr />
+      <ul>
+        {toDos.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
     </div>
   );
 }
